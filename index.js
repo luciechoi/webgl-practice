@@ -55,7 +55,7 @@ function main() {
     // set the resolution
     gl.uniform2f(resolutionUniformLocation, gl.canvas.width, gl.canvas.height);
     
-    for (var i = 0; i < 5; i++) {
+    for (var i = 0; i < 50; i++) {
         drawRandomRectangle(gl, colorUniformLocation);
     }
     console.log("successfully drew!");
@@ -87,8 +87,16 @@ function drawRandomRectangle(gl, colorUniformLocation) {
     // This will write to positionBuffer because
     // its the last thing we bound on the ARRAY_BUFFER
     // bind point
+    var randX = randomInt(gl.canvas.width);
+    var randY = randomInt(gl.canvas.height);
+    var maxWidth = gl.canvas.width - randX;
+    var maxHeight = gl.canvas.height - randY;
     setRectangle(
-        gl, randomInt(300), randomInt(300), randomInt(300), randomInt(300));
+        gl,
+        randX,
+        randY,
+        randomInt(maxWidth),
+        randomInt(maxHeight));
  
     // Set a random color.
     gl.uniform4f(colorUniformLocation, Math.random(), Math.random(), Math.random(), 1);
