@@ -106,9 +106,11 @@ let kernels = {
 
 function main() {
     var image = new Image();
-    var url = "https://webglfundamentals.org/webgl/resources/leaves.jpg";
+    var url = 'https://i.imgur.com/z6SyYyX.jpg';
     requestCORSIfNotSameOrigin(image, url);
     image.src = url;
+    image.width = 1000;
+    image.height = image.width * (3/4);
     image.onload = function() {
       render(image);
     };
