@@ -16,7 +16,6 @@ function main() {
   var positionLocation = gl.getAttribLocation(program, "a_position");
   
   // lookup uniforms
-  var resolutionLocation = gl.getUniformLocation(program, "u_resolution");
   var colorLocation = gl.getUniformLocation(program, "u_color");
   var matrixLocation = gl.getUniformLocation(program, "u_matrix");
 
@@ -171,15 +170,8 @@ function main() {
     gl.vertexAttribPointer(
         positionLocation, size, type, normalize, stride, offset);
 
-    // set the resolution
-    gl.uniform2f(resolutionLocation, gl.canvas.width, gl.canvas.height);
-
     // set the color
     gl.uniform4fv(colorLocation, color);
-    // Compute the matrices
-    var translationMatrix = m3.translation(translation[0], translation[1]);
-    var rotationMatrix = m3.rotation(angleInRadians);
-    var scaleMatrix = m3.scaling(scale[0], scale[1]);
     
     // Compute the matrices
     var matrix = m3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight);
