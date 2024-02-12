@@ -33,12 +33,25 @@ function main() {
   var color = [Math.random(), Math.random(), Math.random(), 1];
   
   var m3 = {
+    projection: function(width, height) {
+      // Note: This matrix flips the Y axis so that 0 is at the top.
+      return [
+        2 / width, 0, 0,
+        0, -2 / height, 0,
+        -1, 1, 1
+      ];
+    },
+    
     translation: function(tx, ty) {
       return [
         1, 0, 0,
         0, 1, 0,
         tx, ty, 1,
       ];
+    },
+
+    translate: function(m, tx, ty) {
+      return m3.multiply(m, m3.translation(tx, ty));
     },
 
     rotation: function(angleInRadians) {
@@ -51,12 +64,20 @@ function main() {
       ];
     },
 
+    rotate: function(m, angleInRadians) {
+      return m3.multiply(m, m3.rotation(angleInRadians));
+    },
+
     scaling: function(sx, sy) {
       return [
         sx, 0, 0,
         0, sy, 0,
         0, 0, 1,
       ];
+    },
+
+    scale: function(m, sx, sy) {
+      return m3.multiply(m, m3.scaling(sx, sy));
     },
 
     multiply: function(a, b) {
@@ -122,7 +143,6 @@ function main() {
     drawScene();
   }
 
-
   // Draw a the scene.
   function drawScene() {
     resizeCanvasToDisplaySize(gl.canvas);
@@ -160,10 +180,12 @@ function main() {
     var translationMatrix = m3.translation(translation[0], translation[1]);
     var rotationMatrix = m3.rotation(angleInRadians);
     var scaleMatrix = m3.scaling(scale[0], scale[1]);
-
-    // Multiply the matrices.
-    var matrix = m3.multiply(translationMatrix, rotationMatrix);
-    matrix = m3.multiply(matrix, scaleMatrix);
+    
+    // Compute the matrices
+    var matrix = m3.projection(gl.canvas.clientWidth, gl.canvas.clientHeight);
+    matrix = m3.scale(matrix, scale[0], scale[1]);
+    matrix = m3.translate(matrix, translation[0], translation[1]);
+    matrix = m3.rotate(matrix, angleInRadians);
 
     // Set the matrix.
     gl.uniformMatrix3fv(matrixLocation, false, matrix);
