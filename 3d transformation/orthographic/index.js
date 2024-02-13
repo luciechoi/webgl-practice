@@ -37,16 +37,6 @@ function main() {
   var color = [Math.random(), Math.random(), Math.random(), 1];
   
   var m4 = {
-    projection: function(width, height, depth) {
-      // Note: This matrix flips the Y axis so that 0 is at the top.
-      return [
-        2 / width, 0, 0, 0,
-        0, -2 / height, 0, 0,
-        0, 0, 2 / depth, 0,
-        -1, 1, 0, 1,
-      ];
-    },
-    
     translation: function(tx, ty, tz) {
       return [
         1, 0, 0, 0,
@@ -119,6 +109,18 @@ function main() {
     scale: function(m, sx, sy, sz) {
       return m4.multiply(m, m4.scaling(sx, sy, sz));
     },
+
+    orthographic: function(left, right, bottom, top, near, far) {
+      return [
+        2 / (right - left), 0, 0, 0,
+        0, 2 / (top - bottom), 0, 0,
+        0, 0, 2 / (near - far), 0,
+   
+        (left + right) / (left - right),
+        (bottom + top) / (bottom - top),
+        (near + far) / (near - far),
+        1,
+    ]},
 
     multiply: function(a, b) {
       var b00 = b[0 * 4 + 0];
@@ -266,7 +268,13 @@ function main() {
     gl.vertexAttribPointer(colorLocation, size, type, normalize, stride, offset);
     
     // Compute the matrices
-    var matrix = m4.projection(gl.canvas.clientWidth, gl.canvas.clientHeight, 400);
+    var left = 0;
+    var right = gl.canvas.clientWidth;
+    var bottom = gl.canvas.clientHeight;
+    var top = 0;
+    var near = 400;
+    var far = -400;
+    var matrix = m4.orthographic(left, right, bottom, top, near, far);
     matrix = m4.scale(matrix, scale[0], scale[1], scale[2]);
     matrix = m4.translate(matrix, translation[0], translation[1], translation[2]);
     matrix = m4.xRotate(matrix, rotation[0]);
