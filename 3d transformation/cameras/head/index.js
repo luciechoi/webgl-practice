@@ -53,7 +53,7 @@ function main() {
   function updateTargetAngle(event, ui) {
     targetAngleRadians = degToRad(ui.value);
     target[0] = Math.sin(targetAngleRadians) * targetRadius;
-    target[1] = Math.cos(targetAngleRadians) * targetRadius;
+    target[2] = Math.cos(targetAngleRadians) * targetRadius;
     drawScene();
   }
 
