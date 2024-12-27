@@ -1,3 +1,8 @@
-# Examples from [WebGL Fundamentals](https://webglfundamentals.org/)
-
-![50 rectangles](https://github.com/thelululand/webgl-fundamentals/assets/77254939/0e4f28fb-dad4-4dff-83a1-9eeb82be8554)
+# WebGL / Shader Practice
+## Learning Resources
+- [Fragment Foundry](https://hughsk.io/fragment-foundry)
+- [Book of Shaders](https://thebookofshaders.com/)
+- [WebGL Fundamentals](https://webglfundamentals.org/)
+- [ThreeJS Journey](https://threejs-journey.com/)
+- [Shader Toy](https://www.shadertoy.com/)
+- [Learn WebGL](https://learnwebgl.brown37.net/index.html#)
